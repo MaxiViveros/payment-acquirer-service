@@ -1,0 +1,377 @@
+{
+  "info": {
+    "_postman_id": "payment-acquirer-collection",
+    "name": "Payment Acquirer Service",
+    "description": "Collection for testing Payment Acquirer Service API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "Payment Processing",
+      "item": [
+        {
+          "name": "1. Successful Payment - MERCHANT_001",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"merchantId\": \"MERCHANT_001\",\n  \"amount\": 100.50,\n  \"currency\": \"USD\",\n  \"cardToken\": \"tok_4532015112830366\",\n  \"cardExpiry\": \"12/2025\",\n  \"operationType\": \"PURCHASE\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/payments",
+              "host": ["{{base_url}}"],
+              "path": ["payments"]
+            },
+            "description": "Process a valid payment transaction"
+          }
+        },
+        {
+          "name": "2. Payment - High Amount",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"merchantId\": \"MERCHANT_001\",\n  \"amount\": 7500.00,\n  \"currency\": \"USD\",\n  \"cardToken\": \"tok_5500000000000004\",\n  \"cardExpiry\": \"06/2026\",\n  \"operationType\": \"PURCHASE\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/payments",
+              "host": ["{{base_url}}"],
+              "path": ["payments"]
+            },
+            "description": "Payment with high amount - may be declined by issuer"
+          }
+        },
+        {
+          "name": "3. Payment - Amount Exceeds Merchant Limit",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"merchantId\": \"MERCHANT_003\",\n  \"amount\": 1500.00,\n  \"currency\": \"USD\",\n  \"cardToken\": \"tok_4111111111111111\",\n  \"cardExpiry\": \"12/2025\",\n  \"operationType\": \"PURCHASE\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/payments",
+              "host": ["{{base_url}}"],
+              "path": ["payments"]
+            },
+            "description": "MERCHANT_003 has limit of $1000, this should fail validation"
+          }
+        },
+        {
+          "name": "4. Payment - Blocked Card Pattern",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"merchantId\": \"MERCHANT_001\",\n  \"amount\": 50.00,\n  \"currency\": \"USD\",\n  \"cardToken\": \"4111111111111111\",\n  \"cardExpiry\": \"12/2025\",\n  \"operationType\": \"PURCHASE\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/payments",
+              "host": ["{{base_url}}"],
+              "path": ["payments"]
+            },
+            "description": "Card token matches blocked pattern - should be rejected"
+          }
+        },
+        {
+          "name": "5. Payment - Unsupported Currency",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"merchantId\": \"MERCHANT_001\",\n  \"amount\": 100.00,\n  \"currency\": \"XXX\",\n  \"cardToken\": \"tok_4532015112830366\",\n  \"cardExpiry\": \"12/2025\",\n  \"operationType\": \"PURCHASE\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/payments",
+              "host": ["{{base_url}}"],
+              "path": ["payments"]
+            },
+            "description": "Unsupported currency should be rejected"
+          }
+        },
+        {
+          "name": "6. Payment - Invalid Merchant",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"merchantId\": \"INVALID_MERCHANT\",\n  \"amount\": 100.00,\n  \"currency\": \"USD\",\n  \"cardToken\": \"tok_4532015112830366\",\n  \"cardExpiry\": \"12/2025\",\n  \"operationType\": \"PURCHASE\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/payments",
+              "host": ["{{base_url}}"],
+              "path": ["payments"]
+            },
+            "description": "Non-existent merchant should return 404"
+          }
+        },
+        {
+          "name": "7. Payment - Invalid Request Format",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"merchantId\": \"\",\n  \"amount\": -50.00,\n  \"currency\": \"US\",\n  \"cardToken\": \"\",\n  \"cardExpiry\": \"invalid\",\n  \"operationType\": \"PURCHASE\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/payments",
+              "host": ["{{base_url}}"],
+              "path": ["payments"]
+            },
+            "description": "Invalid request with validation errors"
+          }
+        },
+        {
+          "name": "8. Payment - EUR Currency",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"merchantId\": \"MERCHANT_002\",\n  \"amount\": 250.75,\n  \"currency\": \"EUR\",\n  \"cardToken\": \"tok_5100000000000008\",\n  \"cardExpiry\": \"03/2027\",\n  \"operationType\": \"PURCHASE\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/payments",
+              "host": ["{{base_url}}"],
+              "path": ["payments"]
+            },
+            "description": "Payment with EUR currency"
+          }
+        }
+      ]
+    },
+    {
+      "name": "Transaction Queries",
+      "item": [
+        {
+          "name": "1. Get Transaction by ID",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/payments/{{transaction_id}}",
+              "host": ["{{base_url}}"],
+              "path": ["payments", "{{transaction_id}}"]
+            },
+            "description": "Retrieve a specific transaction by ID. Replace {{transaction_id}} with actual ID from payment response."
+          }
+        },
+        {
+          "name": "2. List All Transactions",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/payments",
+              "host": ["{{base_url}}"],
+              "path": ["payments"]
+            },
+            "description": "Get all transactions without filters"
+          }
+        },
+        {
+          "name": "3. Filter by Merchant ID",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/payments?merchantId=MERCHANT_001",
+              "host": ["{{base_url}}"],
+              "path": ["payments"],
+              "query": [
+                {
+                  "key": "merchantId",
+                  "value": "MERCHANT_001"
+                }
+              ]
+            },
+            "description": "Get all transactions for MERCHANT_001"
+          }
+        },
+        {
+          "name": "4. Filter by Status - APPROVED",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/payments?status=APPROVED",
+              "host": ["{{base_url}}"],
+              "path": ["payments"],
+              "query": [
+                {
+                  "key": "status",
+                  "value": "APPROVED"
+                }
+              ]
+            },
+            "description": "Get all approved transactions"
+          }
+        },
+        {
+          "name": "5. Filter by Status - DECLINED",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/payments?status=DECLINED",
+              "host": ["{{base_url}}"],
+              "path": ["payments"],
+              "query": [
+                {
+                  "key": "status",
+                  "value": "DECLINED"
+                }
+              ]
+            },
+            "description": "Get all declined transactions"
+          }
+        },
+        {
+          "name": "6. Filter by Merchant and Status",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/payments?merchantId=MERCHANT_001&status=APPROVED",
+              "host": ["{{base_url}}"],
+              "path": ["payments"],
+              "query": [
+                {
+                  "key": "merchantId",
+                  "value": "MERCHANT_001"
+                },
+                {
+                  "key": "status",
+                  "value": "APPROVED"
+                }
+              ]
+            },
+            "description": "Get approved transactions for MERCHANT_001"
+          }
+        },
+        {
+          "name": "7. Filter by Status - ERROR",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/payments?status=ERROR",
+              "host": ["{{base_url}}"],
+              "path": ["payments"],
+              "query": [
+                {
+                  "key": "status",
+                  "value": "ERROR"
+                }
+              ]
+            },
+            "description": "Get all transactions with errors"
+          }
+        }
+      ]
+    },
+    {
+      "name": "Health & Monitoring",
+      "item": [
+        {
+          "name": "Health Check",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/payments/health",
+              "host": ["{{base_url}}"],
+              "path": ["payments", "health"]
+            },
+            "description": "Check if service is running"
+          }
+        },
+        {
+          "name": "Swagger UI",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/swagger-ui.html",
+              "host": ["{{base_url}}"],
+              "path": ["swagger-ui.html"]
+            },
+            "description": "Open Swagger UI for API documentation"
+          }
+        },
+        {
+          "name": "OpenAPI Docs JSON",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api-docs",
+              "host": ["{{base_url}}"],
+              "path": ["api-docs"]
+            },
+            "description": "Get OpenAPI specification in JSON format"
+          }
+        }
+      ]
+    }
+  ],
+  "variable": [
+    {
+      "key": "base_url",
+      "value": "http://localhost:8080",
+      "type": "string"
+    },
+    {
+      "key": "transaction_id",
+      "value": "replace-with-actual-transaction-id",
+      "type": "string"
+    }
+  ]
+}

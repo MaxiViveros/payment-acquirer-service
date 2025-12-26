@@ -1,0 +1,53 @@
+spring:
+  application:
+    name: payment-acquirer-service
+  
+  datasource:
+    url: jdbc:postgresql://localhost:5432/acquirer_db
+    username: acquirer_user
+    password: acquirer_pass
+    driver-class-name: org.postgresql.Driver
+  
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+        format_sql: true
+  
+  profiles:
+    active: dev
+
+server:
+  port: 8080
+
+# Business Rules Configuration
+acquirer:
+  rules:
+    max-amount-per-merchant: 10000.00
+    blocked-card-patterns: "^4111111111111111$,^5555555555554444$"
+    issuer:
+      approval-rate: 0.7
+
+# Logging Configuration
+logging:
+  level:
+    root: INFO
+    com.acquirer: DEBUG
+  pattern:
+    console: "%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg - [TransactionId: %X{transactionId}] [MerchantId: %X{merchantId}]%n"
+    file: "%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg - [TransactionId: %X{transactionId}] [MerchantId: %X{merchantId}]%n"
+  file:
+    name: logs/payment-acquirer.log
+    max-size: 10MB
+    max-history: 30
+
+# Swagger/OpenAPI Configuration
+springdoc:
+  api-docs:
+    path: /api-docs
+  swagger-ui:
+    path: /swagger-ui.html
+    operations-sorter: method

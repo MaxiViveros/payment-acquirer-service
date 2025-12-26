@@ -1,0 +1,54 @@
+version: '3.8'
+
+services:
+  # PostgreSQL Database
+  postgres:
+    image: postgres:16-alpine
+    container_name: acquirer-postgres
+    environment:
+      POSTGRES_DB: acquirer_db
+      POSTGRES_USER: acquirer_user
+      POSTGRES_PASSWORD: acquirer_pass
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    networks:
+      - acquirer-network
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U acquirer_user -d acquirer_db"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # Payment Acquirer Service
+  payment-service:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: payment-acquirer-service
+    environment:
+      SPRING_PROFILES_ACTIVE: prod
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/acquirer_db
+      SPRING_DATASOURCE_USERNAME: acquirer_user
+      SPRING_DATASOURCE_PASSWORD: acquirer_pass
+    ports:
+      - "8080:8080"
+    depends_on:
+      postgres:
+        condition: service_healthy
+    networks:
+      - acquirer-network
+    healthcheck:
+      test: ["CMD", "wget", "--no-verbose", "--tries=1", "--spider", "http://localhost:8080/payments/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+      start_period: 40s
+
+networks:
+  acquirer-network:
+    driver: bridge
+
+volumes:
+  postgres_data:
