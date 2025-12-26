@@ -65,7 +65,7 @@ export JAVA_HOME=$(/usr/libexec/java_home -v21)
 java -version  # Verificar que ahora usa Java 21
 ```
 
-### Opción 1: Con Docker Compose (Recomendado)
+### Opción 1: Con Docker Compose
 
 ```bash
 # Clonar el repositorio
@@ -78,7 +78,7 @@ docker-compose up --build
 # La aplicación estará disponible en http://localhost:8080
 ```
 
-### Opción 2: Ejecución Local (Más Rápido para Desarrollo)
+### Opción 2: Ejecución Local
 
 ```bash
 # Opción A: Usar el script incluido (recomendado)
