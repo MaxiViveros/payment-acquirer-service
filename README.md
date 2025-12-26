@@ -80,6 +80,8 @@ docker-compose up --build
 
 ### Opción 2: Ejecución Local
 
+#### En Linux/macOS:
+
 ```bash
 # Opción A: Usar el script incluido (recomendado)
 ./run-dev.sh
@@ -96,6 +98,24 @@ mvn spring-boot:run -Dspring-boot.run.profiles=dev
 
 # La aplicación estará disponible en http://localhost:8080
 ```
+
+#### En Windows:
+
+```cmd
+REM Opción A: Usar el script incluido (recomendado)
+run-dev.bat
+
+REM Opción B: Ejecutar manualmente
+REM 1. Compilar el proyecto
+mvn clean compile -DskipTests
+
+REM 2. Ejecutar con perfil dev (H2 en memoria)
+mvn spring-boot:run -Dspring-boot.run.profiles=dev
+
+REM La aplicación estará disponible en http://localhost:8080
+```
+
+> **Nota para Windows**: Asegúrate de tener configurada la variable de entorno `JAVA_HOME` apuntando a Java 17 o 21. Puedes verificarlo con `echo %JAVA_HOME%` y configurarlo en las variables de entorno del sistema si es necesario.
 
 ### Opción 3: Con PostgreSQL Local
 
