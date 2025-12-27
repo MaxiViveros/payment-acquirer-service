@@ -412,7 +412,7 @@ Importa la colección Postman incluida: `postman_collection.json`
 7. **Filter by Status** - Filtrar por estado
 8. **Health Check** - Verificar servicio
 
-## 🛠️ Configuración
+## Configuración
 
 ### Variables de Entorno
 
