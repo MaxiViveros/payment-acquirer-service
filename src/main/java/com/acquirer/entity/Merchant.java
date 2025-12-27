@@ -9,10 +9,6 @@ import lombok.NoArgsConstructor;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
-/**
- * Entity representing a merchant in the system.
- * Contains merchant configuration and business rules.
- */
 @Entity
 @Table(name = "merchants")
 @Data

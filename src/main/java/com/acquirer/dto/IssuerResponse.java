@@ -5,9 +5,6 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-/**
- * DTO representing issuer response to transaction authorization request
- */
 @Data
 @Builder
 @NoArgsConstructor
