@@ -9,10 +9,6 @@ import java.time.LocalDateTime;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-/**
- * Unit tests for Merchant entity.
- * Tests the domain logic, validation, and lifecycle callbacks.
- */
 @DisplayName("Merchant Entity Tests")
 class MerchantTest {
 

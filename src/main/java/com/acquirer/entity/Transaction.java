@@ -9,10 +9,6 @@ import lombok.NoArgsConstructor;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
-/**
- * Entity representing a payment transaction in the acquirer system.
- * Contains all transaction details, status, and audit information for traceability.
- */
 @Entity
 @Table(name = "transactions", indexes = {
     @Index(name = "idx_merchant_id", columnList = "merchant_id"),

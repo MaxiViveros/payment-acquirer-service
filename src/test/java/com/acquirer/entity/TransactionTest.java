@@ -9,10 +9,6 @@ import java.time.LocalDateTime;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-/**
- * Unit tests for Transaction entity.
- * Tests the domain logic, validation, and lifecycle callbacks.
- */
 @DisplayName("Transaction Entity Tests")
 class TransactionTest {
 

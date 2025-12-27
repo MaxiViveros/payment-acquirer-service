@@ -102,18 +102,11 @@ public class PaymentController {
     public ResponseEntity<List<PaymentResponse>> queryTransactions(
             @Parameter(description = "Merchant ID to filter by")
             @RequestParam(required = false) String merchantId,
-            
             @Parameter(description = "Transaction status to filter by")
             @RequestParam(required = false) TransactionStatus status) {
         
         log.debug("Querying transactions - merchantId: {}, status: {}", merchantId, status);
         List<PaymentResponse> responses = paymentService.queryTransactions(merchantId, status);
         return ResponseEntity.ok(responses);
-    }
-
-    @GetMapping("/health")
-    @Operation(summary = "Health check", description = "Check if the payment service is running")
-    public ResponseEntity<String> healthCheck() {
-        return ResponseEntity.ok("Payment Acquirer Service is running");
     }
 }
