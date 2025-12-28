@@ -216,23 +216,11 @@ GET /payments?status=APPROVED
 GET /payments?merchantId=MERCHANT_001&status=APPROVED
 ```
 
-### 4. Health Check
-
-**GET** `/payments/health`
-
-Verifica que el servicio esté funcionando.
-
-**Response (200 OK):**
-```
-Payment Acquirer Service is running
-```
-
 ## Documentación Swagger
 
 Una vez que el servicio esté corriendo, accede a la documentación interactiva:
 
 - **Swagger UI:** http://localhost:8080/swagger-ui.html
-- **OpenAPI JSON:** http://localhost:8080/api-docs
 
 ## 🔧 Reglas de Negocio
 
@@ -340,14 +328,14 @@ El servicio implementa un sistema de logging completo usando **MDC (Mapped Diagn
 INFO  - === STARTING PAYMENT PROCESSING ===
 INFO  - Payment request received - Merchant: MERCHANT_001, Amount: 100.00 USD
 DEBUG - Transaction created with PENDING status
-INFO  - Step 1: Validating merchant
+INFO  - Validating merchant
 INFO  - Merchant validation PASSED - Merchant: Test Store Alpha is active
-INFO  - Step 2: Validating business rules
+INFO  - Validating business rules
 INFO  - Business rules validation PASSED
-INFO  - Step 3: Requesting authorization from issuer
+INFO  - Requesting authorization from issuer
 DEBUG - Calling issuer for authorization - Card: **** 0366, Amount: 100.00 USD
 INFO  - Issuer APPROVED transaction - Card: **** 0366
-INFO  - Step 4: Processing issuer response
+INFO  - Processing issuer response
 INFO  - === PAYMENT PROCESSING COMPLETED - Status: APPROVED ===
 ```
 
@@ -465,4 +453,4 @@ tail -f logs/payment-acquirer.log
 ---
 
 **Versión:** 1.0.0  
-**Última actualización:** 26 de diciembre de 2025
+**Última actualización:** 28 de diciembre de 2025
