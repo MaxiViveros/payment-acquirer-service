@@ -222,7 +222,7 @@ Una vez que el servicio esté corriendo, accede a la documentación interactiva:
 
 - **Swagger UI:** http://localhost:8080/swagger-ui.html
 
-## 🔧 Reglas de Negocio
+## Reglas de Negocio
 
 ### Validaciones Implementadas
 
