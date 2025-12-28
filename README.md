@@ -305,7 +305,7 @@ acquirer:
 | created_at | TIMESTAMP | Fecha de creación |
 | updated_at | TIMESTAMP | Fecha de actualización |
 
-## 🔍 Sistema de Logs y Trazabilidad
+## Sistema de Logs y Trazabilidad
 
 El servicio implementa un sistema de logging completo usando **MDC (Mapped Diagnostic Context)** de SLF4J:
 
